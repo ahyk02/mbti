@@ -1,394 +1,274 @@
-```html
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MBTI로 포켓몬 찾기!</title>
-<style>
-:root {
-  --sky: #bde7fa;
-  --sky-dark: #64b8df;
-  --pink: #ffd6e5;
-  --pink-dark: #f08caf;
-  --cream: #fffafd;
-  --text: #38445c;
-  --white: #ffffff;
-}
-* { box-sizing: border-box; }
-body {
-  margin: 0;
-  font-family: "Malgun Gothic", "Apple SD Gothic Neo", sans-serif;
-  color: var(--text);
-  background: linear-gradient(145deg, #e5f7ff, #fff0f6);
-  min-height: 100vh;
-  font-size: 18px;
-}
-button { font: inherit; cursor: pointer; }
-.container {
-  width: min(760px, 92%);
-  margin: 0 auto;
-  padding: 35px 0 60px;
-}
-header { text-align: center; margin-bottom: 28px; }
-.logo { font-size: 48px; margin-bottom: 8px; }
-h1 { font-size: clamp(30px, 6vw, 43px); margin: 8px 0; }
-header p { font-size: 19px; line-height: 1.7; margin: 12px 0; }
-.card {
-  background: rgba(255,255,255,.92);
-  border: 3px solid white;
-  border-radius: 28px;
-  padding: clamp(20px, 5vw, 36px);
-  box-shadow: 0 12px 35px #7db9d51c;
-}
-.hidden { display: none !important; }
-.progress-info {
-  display: flex; justify-content: space-between;
-  font-size: 16px; font-weight: bold; margin-bottom: 10px;
-}
-.progress {
-  height: 12px; background: #eaf2f7;
-  border-radius: 20px; overflow: hidden; margin-bottom: 30px;
-}
-.progress-bar {
-  height: 100%; width: 0; background: var(--sky-dark);
-  border-radius: 20px; transition: width .2s;
-}
-.question-number {
-  color: #e47da3; font-size: 16px;
-  font-weight: bold; margin-bottom: 10px;
-}
-h2 { font-size: clamp(23px, 5vw, 30px); line-height: 1.5; }
-.answers { display: grid; gap: 14px; margin-top: 25px; }
-.answer {
-  border: 2px solid #dcecf5;
-  border-radius: 18px; background: white;
-  padding: 20px; text-align: left; color: var(--text);
-  font-size: 18px; line-height: 1.6;
-  transition: .15s;
-}
-.answer:hover {
-  background: #eef9ff; border-color: var(--sky-dark);
-  transform: translateY(-2px);
-}
-.answer:focus-visible, button:focus-visible {
-  outline: 3px solid #6b9dd9; outline-offset: 3px;
-}
-.primary {
-  border: 0; border-radius: 18px; padding: 17px 28px;
-  font-weight: bold; background: var(--sky-dark); color: white;
-  box-shadow: 0 5px 0 #4399c0;
-}
-.primary:hover { filter: brightness(.97); }
-.secondary {
-  border: 2px solid var(--pink-dark); border-radius: 18px;
-  padding: 15px 25px; background: white; color: #bb5d80;
-  font-weight: bold;
-}
-.center { text-align: center; }
-.intro-art { font-size: 76px; margin: 20px 0; }
-.note {
-  background: #fff2f7; padding: 16px; border-radius: 16px;
-  font-size: 15px; line-height: 1.8; margin: 20px 0;
-}
-.result-top {
-  background: linear-gradient(135deg, #d9f3ff, #ffe4ef);
-  border-radius: 22px; padding: 25px 15px; text-align: center;
-}
-.type-badge {
-  display: inline-block; background: white;
-  padding: 8px 20px; border-radius: 30px;
-  font-weight: bold; color: #d36e96; font-size: 19px;
-}
-.pokemon-emoji { font-size: 86px; margin: 10px 0; }
-.pokemon-name { font-size: 35px; margin: 8px 0; }
-.pokemon-kind { color: #60738a; font-weight: bold; }
-.result-section { margin-top: 25px; }
-.result-section h3 { font-size: 22px; margin-bottom: 10px; }
-.result-section p {
-  font-size: 18px; line-height: 1.9; margin: 0;
-}
-.reason {
-  background: #f0faff; padding: 20px;
-  border-radius: 18px; border-left: 5px solid var(--sky-dark);
-}
-.compat {
-  background: #fff2f7; border-left: 5px solid var(--pink-dark);
-  padding: 20px; border-radius: 18px;
-}
-.compat-name { font-size: 24px; font-weight: bold; }
-.compat-pokemon { font-size: 20px; margin-top: 8px; }
-footer { text-align: center; font-size: 14px; color: #718096; margin-top: 25px; }
-@media (max-width: 480px) {
-  .container { padding-top: 20px; }
-  .logo { font-size: 40px; }
-  .card { border-radius: 22px; }
-  .answer { padding: 17px; }
-}
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MBTI로 포켓몬 찾기</title>
+    <style>
+        /* 기본 스타일 및 색상 설정 */
+        body {
+            font-family: 'Malgun Gothic', 'Apple SD Gothic Neo', sans-serif;
+            background: linear-gradient(135deg, #FFB6C1, #87CEEB); /* 포근한 핑크와 하늘색 */
+            min-height: 100vh;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            background: white;
+            padding: 40px 30px;
+            border-radius: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+            width: 90%;
+            max-width: 500px;
+            box-sizing: border-box;
+        }
+        h1 {
+            font-size: 2.2rem;
+            color: #333;
+            word-break: keep-all;
+            margin-bottom: 10px;
+        }
+        h2 {
+            font-size: 1.8rem;
+            color: #555;
+            word-break: keep-all;
+            line-height: 1.4;
+            margin-bottom: 30px;
+        }
+        p {
+            font-size: 1.2rem;
+            line-height: 1.6;
+        }
+        
+        /* 버튼 스타일 */
+        .btn {
+            background: #87CEEB; /* 하늘색 */
+            color: white;
+            border: none;
+            padding: 20px;
+            margin: 10px 0;
+            border-radius: 20px;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: background 0.3s, transform 0.1s;
+            width: 100%;
+            box-sizing: border-box;
+            font-weight: bold;
+            word-break: keep-all;
+        }
+        .btn:hover {
+            background: #FFB6C1; /* 마우스 오버시 핑크색 */
+        }
+        .btn:active {
+            transform: scale(0.98);
+        }
+        
+        /* 숨김 처리 */
+        .hidden {
+            display: none;
+        }
+
+        /* 결과 화면 스타일 */
+        .mbti-title {
+            font-size: 1.5rem;
+            color: #888;
+            margin: 0;
+        }
+        .pokemon-name {
+            font-size: 2.5rem;
+            color: #FF69B4; /* 진한 핑크 */
+            font-weight: bold;
+            margin: 15px 0 5px;
+        }
+        .pokemon-type {
+            font-size: 1.2rem;
+            color: #87CEEB;
+            font-weight: bold;
+            margin-bottom: 20px;
+        }
+        .desc-box {
+            background: #f8f9fa;
+            padding: 25px;
+            border-radius: 20px;
+            margin: 20px 0;
+            text-align: left;
+        }
+        .desc-box p {
+            margin: 10px 0;
+            font-size: 1.15rem;
+        }
+        .match-box {
+            border: 3px dashed #87CEEB;
+            padding: 20px;
+            border-radius: 20px;
+            margin: 25px 0;
+            background: #f0f8ff;
+        }
+        .match-box h3 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 1.3rem;
+        }
+        .match-box p {
+            margin: 0;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #FF69B4;
+        }
+    </style>
 </head>
 <body>
+
 <div class="container">
-  <header>
-    <div class="logo">☁️ 💗 ⚡</div>
-    <h1>MBTI로 포켓몬 찾기!</h1>
-    <p>나와 꼭 닮은 포켓몬은 누구일까?<br>
-    간단한 질문에 답하고 나만의 포켓몬을 찾아봐!</p>
-  </header>
+    <!-- 시작 화면 -->
+    <div id="intro-screen">
+        <h1>🔍 MBTI로 알아보는<br>나와 닮은 포켓몬</h1>
+        <p>나의 성격과 가장 잘 어울리는 포켓몬은 누구일까요? 4개의 간단한 질문으로 알아보세요!</p>
+        <button class="btn" onclick="startTest()">테스트 시작하기</button>
+    </div>
 
-  <main>
-    <section id="start" class="card center">
-      <div class="intro-art">🐾</div>
-      <h2>너의 마음속 포켓몬을 찾아보자!</h2>
-      <p style="line-height:1.9">
-        12개의 질문에 솔직하게 답하면<br>
-        너의 MBTI와 어울리는 포켓몬,<br>
-        그리고 찰떡궁합 친구까지 알려줄게!
-      </p>
-      <div class="note">
-        💡 정답은 없어! 평소의 내 모습과 더 가까운 답을 골라 줘.
-        이 검사는 재미를 위한 간단한 성격 테스트야.
-      </div>
-      <button class="primary" onclick="startTest()">검사 시작하기 ✨</button>
-    </section>
+    <!-- 질문 화면 -->
+    <div id="quiz-screen" class="hidden">
+        <h2 id="question-text">질문이 여기에 표시됩니다.</h2>
+        <button class="btn" id="btn-a" onclick="selectAnswer('A')">답변 A</button>
+        <button class="btn" id="btn-b" onclick="selectAnswer('B')">답변 B</button>
+    </div>
 
-    <section id="quiz" class="card hidden">
-      <div class="progress-info">
-        <span id="stepText">질문 1 / 12</span>
-        <span id="percentText">8%</span>
-      </div>
-      <div class="progress"><div id="progressBar" class="progress-bar"></div></div>
-      <div id="questionNumber" class="question-number"></div>
-      <h2 id="questionText"></h2>
-      <div id="answers" class="answers"></div>
-    </section>
-
-    <section id="result" class="card hidden">
-      <div class="center">
-        <div style="font-size:45px">🎉 ✨ 🎉</div>
-        <h2>너와 닮은 포켓몬 발견!</h2>
-      </div>
-      <div class="result-top">
-        <div id="mbtiBadge" class="type-badge"></div>
-        <div id="pokemonEmoji" class="pokemon-emoji"></div>
-        <div id="pokemonName" class="pokemon-name"></div>
-        <div id="pokemonKind" class="pokemon-kind"></div>
-      </div>
-
-      <div class="result-section">
-        <h3>💖 포켓몬 소개</h3>
-        <p id="pokemonDesc"></p>
-      </div>
-
-      <div class="result-section">
-        <h3>🌷 왜 너와 잘 어울릴까?</h3>
-        <div id="pokemonReason" class="reason"></div>
-      </div>
-
-      <div class="result-section">
-        <h3>💕 너의 찰떡궁합 MBTI</h3>
-        <div class="compat">
-          <div id="compatType" class="compat-name"></div>
-          <div id="compatPokemon" class="compat-pokemon"></div>
-          <p id="compatDesc" style="margin-top:12px"></p>
+    <!-- 결과 화면 -->
+    <div id="result-screen" class="hidden">
+        <p class="mbti-title">당신의 MBTI는 <strong id="res-mbti"></strong></p>
+        <div class="pokemon-name" id="res-name">포켓몬 이름</div>
+        <div class="pokemon-type" id="res-type">포켓몬 타입</div>
+        
+        <div class="desc-box">
+            <p><strong>📖 설명:</strong> <span id="res-desc"></span></p>
+            <p><strong>✨ 어울리는 이유:</strong> <span id="res-reason"></span></p>
         </div>
-      </div>
 
-      <div class="note">
-        🌈 모든 MBTI에는 저마다의 매력이 있어!<br>
-        결과는 재미로 즐겨 주고, 실제 성격은 사람마다 다를 수 있다는 것도 기억해 줘.
-      </div>
-      <div class="center">
-        <button class="primary" onclick="startTest()">다시 고르기 🔄</button>
-      </div>
-    </section>
-  </main>
-  <footer>Pokémon 및 관련 캐릭터는 각 권리자의 자산입니다.<br>이 페이지는 비공식 팬 콘텐츠이며 공식 서비스가 아닙니다.</footer>
+        <div class="match-box">
+            <h3>💖 환상의 찰떡궁합</h3>
+            <p id="res-partner">MBTI - 포켓몬</p>
+        </div>
+
+        <button class="btn" onclick="resetTest()">다시 고르기</button>
+    </div>
 </div>
 
 <script>
-// Each answer adds one point to one side of an MBTI dimension.
-const questions = [
-  {
-    axis: "EI",
-    title: "사람들과 신나게 놀고 집에 돌아왔을 때?",
-    a: ["더 놀고 싶어! 사람들과 함께할수록 에너지가 생겨.", "이제 혼자만의 시간이 필요해. 조용히 쉬고 싶어."]
-  },
-  {
-    axis: "EI",
-    title: "새로운 모임에 가면 나는?",
-    a: ["먼저 말을 걸며 새로운 친구를 사귀는 편이야.", "분위기를 먼저 살피고 편해지면 대화해."]
-  },
-  {
-    axis: "EI",
-    title: "고민이 생겼을 때 더 편한 방법은?",
-    a: ["친구와 이야기하면서 생각을 정리해.", "혼자 생각을 정리한 다음 이야기해."]
-  },
-  {
-    axis: "SN",
-    title: "새로운 것을 배울 때 나는?",
-    a: ["구체적인 예시와 실제 경험이 좋아.", "새로운 가능성과 큰 그림을 상상하는 게 좋아."]
-  },
-  {
-    axis: "SN",
-    title: "친구가 이야기를 들려줄 때?",
-    a: ["무슨 일이 있었는지 자세히 듣는 게 좋아.", "그 이야기의 의미나 앞으로의 가능성이 궁금해."]
-  },
-  {
-    axis: "SN",
-    title: "여행 계획을 세운다면?",
-    a: ["일정을 꼼꼼히 정하고 계획대로 움직여.", "즉흥적인 발견과 새로운 경험이 좋아."]
-  },
-  {
-    axis: "TF",
-    title: "친구가 고민을 털어놓는다면?",
-    a: ["어떻게 해결하면 좋을지 함께 방법을 찾아.", "먼저 친구의 마음을 이해하고 공감해 줘."]
-  },
-  {
-    axis: "TF",
-    title: "중요한 결정을 내릴 때 더 중요한 것은?",
-    a: ["논리와 객관적인 기준을 따르는 것.", "사람들의 마음과 나의 가치관을 생각하는 것."]
-  },
-  {
-    axis: "TF",
-    title: "친구와 의견이 다를 때 나는?",
-    a: ["무엇이 합리적인지 차근차근 이야기해.", "서로의 기분이 상하지 않도록 조심스럽게 말해."]
-  },
-  {
-    axis: "JP",
-    title: "주말에 약속이 없다면?",
-    a: ["미리 계획을 세워 두면 마음이 편해.", "그날 기분에 따라 자유롭게 정하고 싶어."]
-  },
-  {
-    axis: "JP",
-    title: "과제를 할 때 나는?",
-    a: ["미리 시작해서 계획적으로 끝내는 편이야.", "마감이 가까워질 때 집중력이 높아지는 편이야."]
-  },
-  {
-    axis: "JP",
-    title: "갑자기 계획이 바뀌면?",
-    a: ["다시 정리할 시간이 필요하고 조금 당황해.", "새로운 상황에 맞춰 유연하게 움직여."]
-  }
-];
+    // 질문 데이터
+    const questions = [
+        { 
+            q: "주말에 시간이 생겼다! 나는?", 
+            a: "친구들과 밖에서 신나게 논다", aType: "E", 
+            b: "집에서 혼자 푹 쉬며 에너지를 충전한다", bType: "I" 
+        },
+        { 
+            q: "무언가를 배울 때 나는?", 
+            a: "설명서와 규칙을 꼼꼼하게 따라간다", aType: "S", 
+            b: "내 직감과 상상력을 발휘해서 해본다", bType: "N" 
+        },
+        { 
+            q: "친구가 '나 우울해서 화분 샀어'라고 한다면?", 
+            a: "무슨 화분 샀어? (혹은) 왜 우울해?", aType: "T", 
+            b: "많이 우울했구나 ㅠㅠ 지금은 좀 어때?", bType: "F" 
+        },
+        { 
+            q: "여행을 떠나기 전날 밤, 나는?", 
+            a: "일정표를 다시 확인하고 짐을 완벽히 싼다", aType: "J", 
+            b: "가서 뭐 할지 대충 생각하고 마음 편히 잔다", bType: "P" 
+        }
+    ];
 
-// The four-letter type is mapped to a Pokémon and a fun personality description.
-const pokemon = {
-  ISTJ: { name:"꼬부기", emoji:"🐢", kind:"꼬마거북 포켓몬 · 물 타입", desc:"차분하고 성실하며 맡은 일을 꾸준히 해내는 포켓몬이야. 작은 일도 소홀히 하지 않고 믿음직스럽게 행동해.", reason:"꼼꼼하고 책임감 있는 ISTJ처럼 꼬부기도 자기 페이스를 지키며 성장해.\n차근차근 실력을 쌓는 모습이 현실적이고 성실한 성향과 잘 어울려." },
-  ISFJ: { name:"이브이", emoji:"🦊", kind:"진화 포켓몬 · 노말 타입", desc:"다양한 가능성을 품고 있으며 주변 환경에 맞춰 변화할 수 있어. 친근하고 사랑스러운 매력이 돋보여.", reason:"배려심 깊고 주변을 잘 살피는 ISFJ의 따뜻함과 이브이의 친근한 매력이 닮았어.\n소중한 관계를 지키면서도 필요할 때 힘을 내는 모습이 잘 어울려." },
-  INFJ: { name:"루기아", emoji:"🪽", kind:"잠수 포켓몬 · 에스퍼/비행 타입", desc:"깊은 힘과 신비로운 분위기를 지닌 전설의 포켓몬이야. 강력한 능력을 조용하고 신중하게 사용해.", reason:"깊이 생각하고 자신만의 가치관을 소중히 여기는 INFJ와 잘 어울려.\n루기아처럼 조용하지만 큰 영향력을 발휘하는 모습이 매력적이야." },
-  INTJ: { name:"뮤츠", emoji:"🔮", kind:"유전자 포켓몬 · 에스퍼 타입", desc:"뛰어난 지능과 강력한 능력을 가진 포켓몬이야. 자신만의 방식으로 세상을 바라보며 깊이 생각해.", reason:"전략적으로 생각하고 복잡한 문제를 분석하는 INTJ의 모습과 닮았어.\n독립적으로 목표를 세우고 자신만의 해답을 찾는 점이 잘 어울려." },
-  ISTP: { name:"메타몽", emoji:"🟣", kind:"변신 포켓몬 · 노말 타입", desc:"어떤 모습으로든 변신할 수 있는 유연한 포켓몬이야. 새로운 상황에서도 직접 해 보며 방법을 찾아.", reason:"상황에 맞춰 실용적으로 대처하는 ISTP처럼 메타몽도 변화에 강해.\n말보다 직접 경험하고 해결책을 찾아가는 점이 잘 어울려." },
-  ISFP: { name:"치라미", emoji:"🐭", kind:"친칠라 포켓몬 · 노말 타입", desc:"주변을 깔끔하게 정리하는 것을 좋아하는 사랑스러운 포켓몬이야. 섬세하고 부드러운 매력이 있어.", reason:"자신만의 취향과 감성을 중요하게 여기는 ISFP와 닮았어.\n작은 아름다움을 발견하고 주변을 다정하게 돌보는 모습이 잘 어울려." },
-  INFP: { name:"쉐이미", emoji:"🌼", kind:"감사 포켓몬 · 풀 타입", desc:"꽃과 자연을 떠올리게 하는 포켓몬이야. 작고 귀여운 모습 속에 특별한 힘과 따뜻함을 품고 있어.", reason:"이상과 마음속 소중한 가치를 간직하는 INFP와 잘 어울려.\n쉐이미처럼 주변에 희망과 따뜻함을 전하고 싶어 하는 모습이 닮았어." },
-  INTP: { name:"폴리곤", emoji:"💠", kind:"가상 포켓몬 · 노말 타입", desc:"컴퓨터 기술로 만들어진 독특한 포켓몬이야. 논리적인 세계와 새로운 가능성을 상징해.", reason:"호기심이 많고 원리를 탐구하는 INTP의 성향과 잘 맞아.\n당연해 보이는 것도 다시 질문하고 자신만의 방식으로 분석하는 모습이 닮았어." },
-  ESTP: { name:"리자몽", emoji:"🔥", kind:"화염 포켓몬 · 불꽃/비행 타입", desc:"강력한 날개와 불꽃을 지닌 포켓몬이야. 자신감 있게 도전하고 에너지 넘치는 모습이 인상적이야.", reason:"행동력이 뛰어나고 눈앞의 기회를 놓치지 않는 ESTP와 닮았어.\n망설이기보다 직접 도전하며 경험을 쌓는 모습이 잘 어울려." },
-  ESFP: { name:"피카츄", emoji:"⚡", kind:"쥐 포켓몬 · 전기 타입", desc:"밝고 사랑스러운 매력을 지닌 대표적인 포켓몬이야. 전기를 모아 사용하며 친구들과 함께 모험해.", reason:"사람들과 즐거움을 나누고 순간을 소중히 여기는 ESFP와 잘 어울려.\n피카츄처럼 밝은 에너지로 주변 분위기를 즐겁게 만드는 점이 닮았어." },
-  ENFP: { name:"푸린", emoji:"🎤", kind:"풍선 포켓몬 · 노말/페어리 타입", desc:"노래를 좋아하고 독특한 매력으로 주변의 시선을 사로잡는 포켓몬이야. 상상력 넘치는 모습이 귀여워.", reason:"호기심이 많고 새로운 가능성을 즐기는 ENFP의 모습과 닮았어.\n푸린처럼 자신만의 개성을 표현하고 주변에 즐거움을 전하는 점이 잘 어울려." },
-  ENTP: { name:"겟핸보숭", emoji:"🐒", kind:"긴꼬리 포켓몬 · 노말 타입", desc:"꼬리를 능숙하게 활용하며 장난스럽고 재치 있는 포켓몬이야. 빠르게 움직이며 다양한 상황에 대응해.", reason:"새로운 아이디어를 즐기고 여러 방법을 실험하는 ENTP와 잘 어울려.\n재치 있는 발상으로 상황을 바꾸고 예상 밖의 해결책을 찾는 모습이 닮았어." },
-  ESTJ: { name:"윈디", emoji:"🐕", kind:"전설 포켓몬 · 불꽃 타입", desc:"당당하고 믿음직한 모습이 인상적인 포켓몬이야. 힘찬 움직임과 용맹한 분위기를 가지고 있어.", reason:"체계적으로 일을 진행하고 책임감 있게 이끄는 ESTJ와 닮았어.\n윈디처럼 자신감 있고 든든한 모습으로 주변의 신뢰를 얻는 점이 잘 어울려." },
-  ESFJ: { name:"푸호꼬", emoji:"🦊", kind:"여우 포켓몬 · 불꽃 타입", desc:"귀여운 여우의 모습을 가진 포켓몬이야. 따뜻하고 사랑스러운 분위기와 우아한 매력이 있어.", reason:"주변 사람을 챙기고 함께하는 분위기를 중요하게 여기는 ESFJ와 닮았어.\n푸호꼬처럼 다정한 모습으로 사람들에게 편안함을 주는 점이 잘 어울려." },
-  ENFJ: { name:"가디안", emoji:"💗", kind:"포용 포켓몬 · 에스퍼/페어리 타입", desc:"소중한 사람을 지키려는 마음이 강한 포켓몬이야. 우아한 모습과 강력한 능력을 함께 지니고 있어.", reason:"다른 사람의 마음을 이해하고 긍정적인 방향으로 이끄는 ENFJ와 잘 어울려.\n가디안처럼 소중한 사람을 지키고 힘이 되어 주는 점이 닮았어." },
-  ENTJ: { name:"보만다", emoji:"🐉", kind:"드래곤 포켓몬 · 드래곤/비행 타입", desc:"하늘을 자유롭게 날아다니는 강력한 포켓몬이야. 커다란 날개와 대담한 모습이 돋보여.", reason:"큰 목표를 세우고 주도적으로 도전하는 ENTJ의 모습과 닮았어.\n보만다처럼 더 넓은 가능성을 향해 나아가며 강한 추진력을 보여 주는 점이 잘 어울려." }
-};
+    // 포켓몬 16가지 결과 데이터
+    const mbtiData = {
+        "ISTJ": { name: "꼬부기 🐢", type: "물 타입", desc: "듬직하고 성실한 꼬마 거북이 포켓몬", reason: "묵묵하고 성실하게 제 할 일을 다하는 책임감 넘치는 모습이 꼬부기의 든든함과 찰떡이에요.", partner: "ESFP", partnerPoke: "토게피 🥚" },
+        "ISFJ": { name: "이상해씨 🐸", type: "풀/독 타입", desc: "등에 씨앗을 품고 다니는 다정한 포켓몬", reason: "다른 사람들을 배려하는 따뜻한 마음이 씨앗을 정성껏 키우는 이상해씨와 닮았어요.", partner: "ESTP", partnerPoke: "꼬마돌 🪨" },
+        "INFJ": { name: "가디안 🧚‍♀️", type: "에스퍼/페어리 타입", desc: "소중한 사람을 지키려는 포옹력 포켓몬", reason: "뛰어난 통찰력과 이상을 품고 있으며, 누군가를 지키려는 따뜻한 마음씨가 꼭 닮았어요.", partner: "ENFP", partnerPoke: "이브이 🦊" },
+        "INTJ": { name: "뮤츠 🔮", type: "에스퍼 타입", desc: "압도적인 힘을 가진 유전공학 포켓몬", reason: "냉철한 판단력과 지능으로 목표를 향해 완벽을 추구하는 모습이 카리스마 넘치는 뮤츠 같아요.", partner: "ENTP", partnerPoke: "팬텀 👻" },
+        "ISTP": { name: "잠만보 💤", type: "노말 타입", desc: "먹고 자는 것을 좋아하는 졸음 포켓몬", reason: "평소엔 무심하고 느긋해 보이지만, 진짜 필요할 때는 엄청난 에너지를 발휘하는 현실주의자예요.", partner: "ESFJ", partnerPoke: "내루미 👅" },
+        "ISFP": { name: "푸린 🎤", type: "노말/페어리 타입", desc: "노래 부르기를 좋아하는 풍선 포켓몬", reason: "온화하고 예술적인 감수성이 풍부하며, 부드러운 매력으로 사람들의 마음을 편안하게 해줘요.", partner: "ESTJ", partnerPoke: "롱스톤 ⛰️" },
+        "INFP": { name: "메타몽 💟", type: "노말 타입", desc: "무엇으로든 변신할 수 있는 포켓몬", reason: "유연한 사고와 풍부한 상상력을 가졌으며, 타인을 이해하고 공감하는 잠재력이 무궁무진해요.", partner: "ENFJ", partnerPoke: "망나뇽 🐉" },
+        "INTP": { name: "야돈 🦥", type: "물/에스퍼 타입", desc: "멍하니 생각에 잠기는 얼간이 포켓몬", reason: "겉으로는 멍해 보일지 몰라도, 머릿속은 온갖 호기심과 논리적인 탐구로 바쁘게 돌아가고 있어요.", partner: "ENTJ", partnerPoke: "리자몽 🔥" },
+        "ESTP": { name: "꼬마돌 🪨", type: "바위/땅 타입", desc: "에너지가 넘치고 튼튼한 암석 포켓몬", reason: "활동적이고 모험을 즐기며, 어떤 상황이든 직접 부딪히고 해결해 나가는 강한 실천력이 있어요.", partner: "ISFJ", partnerPoke: "이상해씨 🐸" },
+        "ESFP": { name: "토게피 🥚", type: "페어리 타입", desc: "사람들에게 행운과 웃음을 주는 포켓몬", reason: "밝고 명랑한 성격으로 주변 사람들에게 항상 긍정적인 에너지를 전파하는 최고의 분위기 메이커예요.", partner: "ISTJ", partnerPoke: "꼬부기 🐢" },
+        "ENFP": { name: "이브이 🦊", type: "노말 타입", desc: "다양한 진화 가능성을 가진 포켓몬", reason: "호기심이 넘치고 열정적이며, 틀에 얽매이지 않고 매일매일 새로운 경험을 찾아 떠나는 걸 좋아해요.", partner: "INFJ", partnerPoke: "가디안 🧚‍♀️" },
+        "ENTP": { name: "팬텀 👻", type: "고스트/독 타입", desc: "장난기 가득한 매력적인 그림자 포켓몬", reason: "독창적인 아이디어와 재치 있는 입담으로 사람들을 깜짝 놀라게 만드는 매력적인 장난꾸러기예요.", partner: "INTJ", partnerPoke: "뮤츠 🔮" },
+        "ESTJ": { name: "롱스톤 ⛰️", type: "바위/땅 타입", desc: "튼튼하고 거대한 바위뱀 포켓몬", reason: "확고한 규칙과 질서를 중요하게 생각하며, 한번 결정한 일은 끝까지 밀고 나가는 듬직한 리더예요.", partner: "ISFP", partnerPoke: "푸린 🎤" },
+        "ESFJ": { name: "내루미 👅", type: "노말 타입", desc: "다정하고 애교가 많은 핥기 포켓몬", reason: "사람들을 돕고 챙겨주는 것을 진심으로 즐기며, 누구와도 금방 친해지는 엄청난 친화력을 가졌어요.", partner: "ISTP", partnerPoke: "잠만보 💤" },
+        "ENFJ": { name: "망나뇽 🐉", type: "드래곤/비행 타입", desc: "바다를 누비는 다정한 드래곤 포켓몬", reason: "따뜻한 카리스마로 사람들을 이끌며, 어려움에 처한 사람을 지나치지 않고 도와주는 다정한 리더예요.", partner: "INFP", partnerPoke: "메타몽 💟" },
+        "ENTJ": { name: "리자몽 🔥", type: "불꽃/비행 타입", desc: "뜨거운 열정을 품은 화염 포켓몬", reason: "당당하고 자신감 넘치며, 거침없는 추진력과 카리스마로 사람들을 이끌고 목표를 쟁취해내요.", partner: "INTP", partnerPoke: "야돈 🦥" }
+    };
 
-// One recommended companion for each type.
-const compatibility = {
-  ISTJ:"ESFP", ISFJ:"ESTP", INFJ:"ENTP", INTJ:"ENFP",
-  ISTP:"ESFJ", ISFP:"ENFJ", INFP:"ENTJ", INTP:"ESTJ",
-  ESTP:"ISFJ", ESFP:"ISTJ", ENFP:"INTJ", ENTP:"INFJ",
-  ESTJ:"INTP", ESFJ:"ISTP", ENFJ:"ISFP", ENTJ:"INFP"
-};
+    let currentQ = 0;
+    let scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
 
-let current = 0;
-let answers = [];
+    // 테스트 시작
+    function startTest() {
+        document.getElementById('intro-screen').classList.add('hidden');
+        document.getElementById('quiz-screen').classList.remove('hidden');
+        showQuestion();
+    }
 
-function show(id) {
-  ["start", "quiz", "result"].forEach(section => {
-    document.getElementById(section).classList.toggle("hidden", section !== id);
-  });
-  window.scrollTo({ top: 0, behavior: "smooth" });
-}
+    // 질문 보여주기
+    function showQuestion() {
+        if (currentQ >= questions.length) {
+            calculateResult();
+            return;
+        }
+        const qData = questions[currentQ];
+        document.getElementById('question-text').innerText = qData.q;
+        
+        const btnA = document.getElementById('btn-a');
+        const btnB = document.getElementById('btn-b');
+        
+        btnA.innerText = qData.a;
+        btnB.innerText = qData.b;
+        
+        // 이전 이벤트 리스너 덮어쓰기 위해 onclick 속성 직접 변경
+        btnA.onclick = function() { selectAnswer(qData.aType); };
+        btnB.onclick = function() { selectAnswer(qData.bType); };
+    }
 
-function startTest() {
-  current = 0;
-  answers = [];
-  show("quiz");
-  renderQuestion();
-}
+    // 답변 선택 시
+    function selectAnswer(type) {
+        scores[type]++;
+        currentQ++;
+        showQuestion();
+    }
 
-function renderQuestion() {
-  const q = questions[current];
-  const step = current + 1;
-  document.getElementById("stepText").textContent = `질문 ${step} / ${questions.length}`;
-  document.getElementById("percentText").textContent =
-    Math.round(step / questions.length * 100) + "%";
-  document.getElementById("progressBar").style.width =
-    (step / questions.length * 100) + "%";
-  document.getElementById("questionNumber").textContent = `QUESTION ${String(step).padStart(2, "0")}`;
-  document.getElementById("questionText").textContent = q.title;
+    // 결과 계산 및 화면 표시
+    function calculateResult() {
+        document.getElementById('quiz-screen').classList.add('hidden');
+        
+        // MBTI 조합 계산
+        const mbti = (scores.E > scores.I ? "E" : "I") +
+                     (scores.S > scores.N ? "S" : "N") +
+                     (scores.T > scores.F ? "T" : "F") +
+                     (scores.J > scores.P ? "J" : "P");
 
-  const box = document.getElementById("answers");
-  box.innerHTML = "";
+        const resultData = mbtiData[mbti];
 
-  q.a.forEach((answer, index) => {
-    const button = document.createElement("button");
-    button.className = "answer";
-    button.textContent = (index === 0 ? "A. " : "B. ") + answer;
-    button.addEventListener("click", () => choose(index));
-    box.appendChild(button);
-  });
-}
+        document.getElementById('res-mbti').innerText = mbti;
+        document.getElementById('res-name').innerText = resultData.name;
+        document.getElementById('res-type').innerText = resultData.type;
+        document.getElementById('res-desc').innerText = resultData.desc;
+        document.getElementById('res-reason').innerText = resultData.reason;
+        document.getElementById('res-partner').innerText = `${resultData.partner} (${resultData.partnerPoke})`;
 
-function choose(index) {
-  answers[current] = index;
-  current++;
-  if (current < questions.length) {
-    renderQuestion();
-  } else {
-    showResult();
-  }
-}
+        document.getElementById('result-screen').classList.remove('hidden');
+    }
 
-function calculateMBTI() {
-  const score = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
-
-  questions.forEach((q, i) => {
-    const first = q.axis[0];
-    const second = q.axis[1];
-    score[answers[i] === 0 ? first : second]++;
-  });
-
-  return [
-    score.E >= score.I ? "E" : "I",
-    score.S >= score.N ? "S" : "N",
-    score.T >= score.F ? "T" : "F",
-    score.J >= score.P ? "J" : "P"
-  ].join("");
-}
-
-function showResult() {
-  const type = calculateMBTI();
-  const p = pokemon[type];
-  const mateType = compatibility[type];
-  const mate = pokemon[mateType];
-
-  document.getElementById("mbtiBadge").textContent = `나의 MBTI · ${type}`;
-  document.getElementById("pokemonEmoji").textContent = p.emoji;
-  document.getElementById("pokemonName").textContent = p.name;
-  document.getElementById("pokemonKind").textContent = p.kind;
-  document.getElementById("pokemonDesc").textContent = p.desc;
-  document.getElementById("pokemonReason").innerHTML =
-    p.reason.split("\n").map(line => `<p>${line}</p>`).join("");
-
-  document.getElementById("compatType").textContent = `${mateType} · 찰떡궁합`;
-  document.getElementById("compatPokemon").textContent =
-    `${mate.emoji} ${mate.name} (${mate.kind})`;
-  document.getElementById("compatDesc").textContent =
-    `${mateType} 유형은 너와 다른 매력으로 서로를 보완할 수 있어. ${mate.name}처럼 새로운 관점과 에너지를 나누며 즐거운 관계를 만들어 봐!`;
-
-  show("result");
-}
+    // 테스트 초기화 (다시 고르기)
+    function resetTest() {
+        currentQ = 0;
+        scores = { E:0, I:0, S:0, N:0, T:0, F:0, J:0, P:0 };
+        document.getElementById('result-screen').classList.add('hidden');
+        document.getElementById('intro-screen').classList.remove('hidden');
+    }
 </script>
 </body>
 </html>
-```
